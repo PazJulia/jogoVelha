@@ -1,0 +1,23 @@
+.game-page-style {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-style {
+  height: 100px;
+  width: 100px;
+  margin: 1rem;
+  background: lightgrey;
+  border-radius: 10px;
+  border: 0;
+}
+
+.win-style {
+  background: greenyellow;
+}
+
+.row-style {
+  display: flex;
+}

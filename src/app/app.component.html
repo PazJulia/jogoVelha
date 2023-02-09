@@ -1,0 +1,15 @@
+<div class="game-page-style">
+<h1>Velha</h1>
+<div class="row row-style" *ngFor="let row of gameData; index as rIndex">
+  <button
+    (click)="changeButtonStatus(rIndex, cIndex)"
+    [disabled]="item.disabled"
+    [ngClass]="{'win-style': item.gameWinStatus}"
+    class="button-style"
+    *ngFor="let item of row; index as cIndex"
+  >
+    <h1>{{ item.value }}</h1>
+  </button>
+</div>
+  <h2>Vez do {{playerTurn}}</h2>
+</div>
