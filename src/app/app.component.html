@@ -1,5 +1,5 @@
 <div class="game-page-style">
-<h1>Velha</h1>
+<h1 class="text-style">Jogo da Velha</h1>
 <div class="row row-style" *ngFor="let row of gameData; index as rIndex">
   <button
     (click)="changeButtonStatus(rIndex, cIndex)"
@@ -11,5 +11,5 @@
     <h1>{{ item.value }}</h1>
   </button>
 </div>
-  <h2>Vez do {{playerTurn}}</h2>
+  <h2 class="text-style">{{stateGameText}}</h2>
 </div>

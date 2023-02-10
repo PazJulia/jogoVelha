@@ -8,17 +8,21 @@ import {Component} from '@angular/core';
 export class AppComponent {
   gameData = this.initializeGame();
   winPositions = this.setWinPositions();
-  player1 = 'Jogador 1';
-  player2 = 'Jogador 2';
-  playerTurn = this.player1;
+  player1 = '1';
+  player2 = '2';
+  stateGameText = `Vez do Jogador ${this.player1}`;
   symbol1 = 'X';
   symbol2 = 'O';
   symbolTurn = this.symbol1;
+  clickedButtonCount = 0;
+  isGameOver = false;
 
   changeButtonStatus(rowIndex: number, colIndex: number): void {
     this.gameData[rowIndex][colIndex].value = this.symbolTurn;
     this.gameData[rowIndex][colIndex].disabled = true;
+    this.clickedButtonCount++;
     this.verifyWinner(rowIndex, colIndex);
+    if (this.verifyGameOver()) return;
     this.setPlayerTurn();
   }
 
@@ -46,11 +50,12 @@ export class AppComponent {
   }
 
   setPlayerTurn() {
-    if(this.playerTurn === this.player1) {
-      this.playerTurn = this.player2;
+    if (this.isGameOver) return;
+    if(this.symbolTurn === this.symbol1) {
+      this.stateGameText = `Vez do Jogador ${this.player2}`;
       this.symbolTurn = this.symbol2;
     } else {
-      this.playerTurn = this.player1;
+      this.stateGameText = `Vez do Jogador ${this.player1}`;
       this.symbolTurn = this.symbol1;
     }
   }
@@ -66,13 +71,34 @@ export class AppComponent {
           }
         });
         if (winArray.length === 3) {
-          rowPositions.forEach(column => {
-            this.gameData[column.row][column.col].gameWinStatus = true;
-          });
+          this.setWinner(rowPositions);
           return;
         }
       }
     });
+  }
+
+  setWinner(row: any[]) {
+    row.forEach(column => {
+      this.gameData[column.row][column.col].gameWinStatus = true;
+    });
+    this.gameData.forEach((row: any[]) => {
+      row.forEach((column: any) => {
+        column.disabled = true;
+      });
+    });
+    this.stateGameText = this.symbolTurn === this.symbol1 ?
+      `O Jogador ${this.player1} venceu!` :
+      `O Jogador ${this.player2} venceu!`;
+    this.isGameOver = true;
+  }
+
+  verifyGameOver(): boolean {
+    if (this.clickedButtonCount === 9 && !this.isGameOver) {
+      this.stateGameText = 'Deu Velha!';
+      this.isGameOver = true;
+      return true;
+    } else return false;
   }
 
   setWinPositions(): any {
